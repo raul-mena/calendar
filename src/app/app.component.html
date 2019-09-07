@@ -1,37 +1,14 @@
-<div class="container">
-  <div class="row">
-      <div class="col-md" (click)="back()">
-          back
-      </div>
-      <div class="col-md" class="month-year">
-          <div class="text-primary">{{monthsArray[displayMonth]}} - {{displayYear}}</div>
-          <div class="hide-icon" (click)="hideButton()" name="md-calendar" color="primary"></div>
-      </div>
-      <div class="col-md" (click)="forward()">
-          next
-      </div>
-  </div>
-  <div class="container">
-      <div class="row">
-          <div class="col-sm" *ngFor="let head of weekHead">{{head}}</div>
-      </div>
+<div class="container" style="border: solid;">
+    <app-header [displayMonth]='displayMonth' [displayYear]="displayYear" (onMonthSelect)="createMonth($event.year, $event.month)"></app-header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm text-primary text-center" *ngFor="let head of weekHead">{{head}}</div>
+        </div>
 
-      <div class="row" *ngFor="let week of weekArray;let i = index">
-          <div class=" col" (click)="daySelect(day,i,j)"
-          *ngFor="let day of week;let j = index">
-              <div class="col-sm">
-                  <div [ngClass]="[day.isThisMonth?'this-month':'not-this-month',day.isToday?'today':'',day.isSelect?'select':'','upperdiv']">
-                      <div class="day">{{day.date}}</div>
-                  </div>
-                  <div class="lower-div">
-                      <div class="eventBlip" *ngIf="day.hasEvent"></div>
-                      <div *ngFor="let event  of day.hasEvent" class="eventBlip" [ngStyle]="{'background':event }"></div>
-                      
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+        <div class="row" *ngFor="let week of weekArray; let i = index">
+            <div class="col" *ngFor="let day of week;let j = index">
+                <app-day [day]='day' (onDaySelect)="daySelect(i, j)"></app-day>
+            </div>
+        </div>
+    </div>
 </div>
-
-<router-outlet></router-outlet>

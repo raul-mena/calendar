@@ -1,0 +1,20 @@
+.day-container {
+    min-height: 100px;
+    text-align: right;
+}
+
+.day {
+    cursor: pointer;
+}
+
+.currentDay {
+    background-color: lavender;
+}
+
+.gayColor {
+    color: gray;
+}
+
+.redBackground {
+    border: 1px solid red;
+}

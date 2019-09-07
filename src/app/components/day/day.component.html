@@ -1,0 +1,11 @@
+<div class="col-sm day-container" (click)="daySelect(day)" [ngClass]="{'redBackground': day.isToday, 'currentDay': day.isSelect}">
+    <div>
+        <div class="day" [ngClass]="{'gayColor': !day.isThisMonth}">
+            <span>{{day.date}}</span>
+        </div>
+    </div>
+    <div class="lower-div">
+        <div class="eventBlip" *ngIf="day.hasEvent"></div>
+        <div *ngFor="let event  of day.hasEvent" class="eventBlip"></div>
+    </div>
+</div>

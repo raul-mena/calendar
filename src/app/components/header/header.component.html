@@ -1,0 +1,16 @@
+<div class="row padding10">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="col-md-3 text-center float-left" (click)="back()">
+            <span class="arrow">&#60;-</span>
+        </div>
+        <div class="col-md-6 text-center float-left">
+            <div class="text-primary">{{monthsArray[displayMonth]}} - {{displayYear}}</div>
+            <!-- <div class="hide-icon" (click)="hideButton()" name="md-calendar" color="primary"></div> -->
+        </div>
+        <div class="col-md-3 text-center float-left" (click)="forward()">
+            <span class="arrow">-&#62;</span>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
