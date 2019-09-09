@@ -10,23 +10,28 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { OpenWeatherService } from './services/open-weather.service';
+import { HttpClientModule } from '@angular/common/http';
+import { WeatherComponent } from './components/weather/weather.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DayComponent,
     HeaderComponent,
-    FormModalComponent
+    FormModalComponent,
+    WeatherComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
+    HttpClientModule,
     ModalModule.forRoot(),
     TimepickerModule.forRoot()
   ],
-  providers: [],
+  providers: [ OpenWeatherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
