@@ -37,8 +37,7 @@ export class WeatherComponent implements OnInit {
         this.pressure = (this.pressure / res.list.length).toFixed(2);
         this.temp_max = (this.temp_max / res.list.length).toFixed(2);
         this.temp_min = (this.temp_min / res.list.length).toFixed(2);
-    }
-      console.log('weather--->', res);
+      }
     })
   }
 

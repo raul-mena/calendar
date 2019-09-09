@@ -2,8 +2,8 @@ export class EventModel {
     constructor(
         public reminder?: String,
         public city?: String,
-        public color?: number,
+        public color?: any,
         public time?: any,
-        public id?: number        
+        public id?: any        
     ) { }
 }
