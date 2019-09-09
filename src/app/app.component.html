@@ -1,15 +1,23 @@
-<app-weather></app-weather>
+<nav class="navbar navbar-dark bg-primary">
+    <span class="text-white">Front-end Javascript Challenge</span>
+</nav>
+<div class="row mtgTop5">
+    <div class="col-md-2">
+        <app-weather></app-weather>
+    </div>
+    <div class="col-md-9">
+        <div class="container" style="border: solid;">
+            <app-header [displayMonth]='displayMonth' [displayYear]="displayYear" (onMonthSelect)="createMonth($event.year, $event.month)"></app-header>
+            <div class="container">
+                <div class="row blueBackground">
+                    <div class="col-sm text-white text-center" *ngFor="let head of weekHead">{{head}}</div>
+                </div>
 
-<div class="container" style="border: solid;">
-    <app-header [displayMonth]='displayMonth' [displayYear]="displayYear" (onMonthSelect)="createMonth($event.year, $event.month)"></app-header>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm text-primary text-center" *ngFor="let head of weekHead">{{head}}</div>
-        </div>
-
-        <div class="row" *ngFor="let week of weekArray; let i = index">
-            <div class="col" *ngFor="let day of week;let j = index">
-                <app-day [day]='day' (onDaySelect)="daySelect(i, j)" (onViewDate)="openModal($event)"></app-day>
+                <div class="row" *ngFor="let week of weekArray; let i = index">
+                    <div class="col" *ngFor="let day of week;let j = index">
+                        <app-day [day]='day' (onDaySelect)="daySelect(i, j)" (onViewDate)="openModal($event)"></app-day>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

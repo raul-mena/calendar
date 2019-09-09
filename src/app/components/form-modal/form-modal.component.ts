@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { EventModel } from '../../models/Event.model';
 
 @Component({
@@ -6,8 +6,8 @@ import { EventModel } from '../../models/Event.model';
   templateUrl: './form-modal.component.html',
   styleUrls: ['./form-modal.component.scss']
 })
-export class FormModalComponent implements OnInit {
-  
+export class FormModalComponent {
+  //options to emit data
   @Output() getNewValues = new EventEmitter<EventModel>();
   @Output() ondeleteEvent = new EventEmitter<EventModel>();
   
@@ -15,11 +15,10 @@ export class FormModalComponent implements OnInit {
   mytime: Date = new Date();
   constructor() { }
 
-  ngOnInit() {
-  }
-
   submitData(){
+    //get all the values
     let newValues = Object.assign({}, this.currentEvent)
+    //add time
     newValues.time = this.mytime;
     this.getNewValues.emit(newValues);
   }

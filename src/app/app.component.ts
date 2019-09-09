@@ -11,9 +11,11 @@ import { EventModel } from './models/Event.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
+    //modal elements
     @ViewChild('template') template: TemplateRef<any>
     modalRef: BsModalRef;
+    //this array will save all the events, in case switch of the month, don't lose the events
+    dataPersist: Array<dateObj> = [];
 
     selectedDate: number = moment().date();
     currentDay: any;
@@ -25,7 +27,7 @@ export class AppComponent {
     dateArray: Array<dateObj> = []; // Array for all the days of the month
     weekArray = []; // Array for each row of the calendar
     lastSelect: number = 0; // Record the last clicked location
-    
+    //calendar head
     weekHead: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
     constructor(
@@ -95,9 +97,15 @@ export class AppComponent {
             weekDays = [];
         }
     }
+
+    checkIfThereIsEvents(day: dateObj){
+        const item:any = this.dataPersist.find(x => (x.date == day.date && x.month == day.month && day.year == x.year));
+        if(item){ day = item };
+        return day;
+    }
     //build basic days structure
     getBasicStructure(year, month, date, isThisMonth = false){
-        return {
+        let day:dateObj = {
             year: year,
             month: month,
             date: date,
@@ -106,6 +114,7 @@ export class AppComponent {
             isSelect: false,
             hasEvent: [],
         }
+        return this.checkIfThereIsEvents(day);
     }
 
     daySelect(i, j) {
@@ -144,6 +153,8 @@ export class AppComponent {
             this.currentDay.hasEvent = this.sortByDate(this.currentDay.hasEvent);
             this.dateArray[index] = { ...this.currentDay };
         }
+        //save date
+        this.storageData({ ...this.currentDay });
         //then close the modal
         this.modalRef.hide();
     }
@@ -158,5 +169,18 @@ export class AppComponent {
         return arr.sort((a,b) => {
             return a.time.getTime() - b.time.getTime();
         })
+    }
+
+    storageData(day: dateObj){
+        //search the day
+        const item = this.dataPersist.find(x => (x.date == day.date && x.month == day.month && day.year == x.year));
+        //if we found some element, replace hasEvent to save the new info
+        if(item){
+            const index = this.dataPersist.indexOf(item);
+            item.hasEvent = [...day.hasEvent];
+            this.dataPersist[index] = item;
+        }else {
+            this.dataPersist.push(day);
+        }
     }
 }

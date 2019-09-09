@@ -7,12 +7,12 @@ import { OpenWeatherService } from '../../services/open-weather.service';
   styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent implements OnInit {
-
+  //init data
   humidity: any = 0;
   pressure: any = 0;
   temp_max: any = 0;
   temp_min: any = 0;
-
+  //set default value
   searcher =  'Guadalajara,MX'
 
   constructor(
@@ -33,6 +33,7 @@ export class WeatherComponent implements OnInit {
           this.temp_max += element.main.temp_max;
           this.temp_min += element.main.temp_min;
         });
+        //get coverage of all results
         this.humidity = (this.humidity / res.list.length).toFixed(2);
         this.pressure = (this.pressure / res.list.length).toFixed(2);
         this.temp_max = (this.temp_max / res.list.length).toFixed(2);
