@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { dateObj } from '../../models/Day.model';
 
 @Component({
@@ -6,20 +6,21 @@ import { dateObj } from '../../models/Day.model';
   templateUrl: './day.component.html',
   styleUrls: ['./day.component.scss']
 })
-export class DayComponent implements OnInit {
+export class DayComponent {
   
-
   @Input() day: any;
   @Output() onDaySelect = new EventEmitter<dateObj>();
-  constructor() { }
+  @Output() onViewDate = new EventEmitter<dateObj>();
 
-  ngOnInit() {
-  }
-
+  constructor() {}
+  
   // Select a day, click event
   daySelect(day) {
-    console.log('day', this.day);
     this.onDaySelect.emit(day);
   }
 
+  openModalWithComponent(eventSelected) {
+    /* this is how we open a Modal Component from another component */
+    this.onViewDate.emit(eventSelected)
+  }
 }

@@ -1,0 +1,23 @@
+<form ngNativeValidate #form="ngForm" (ngSubmit)="submitData()">
+    <div class="form-group">
+        <label for="inputAddress">Reminder</label>
+        <input [(ngModel)]="currentEvent.reminder" name="reminder" type="text" class="form-control" placeholder="Reminder" required>
+    </div>
+    <div class="form-group">
+        <label for="inputAddress2">City</label>
+        <input type="text" [(ngModel)]="currentEvent.city" name="city" class="form-control" placeholder="City" required>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputCity">Color</label>
+            <input type="color" [(ngModel)]="currentEvent.color" name="color" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputCity">Time</label>
+            <timepicker [(ngModel)]="mytime" name="mytime"></timepicker>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<button *ngIf="currentEvent.id" type="button" (click)="deleteEvent()" class="btn btn-danger">Delete</button>

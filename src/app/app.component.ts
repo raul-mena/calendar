@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 import * as moment from 'moment';
 import * as _ from "lodash";
 import { dateObj } from './models/Day.model';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { EventModel } from './models/Event.model';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +12,12 @@ import { dateObj } from './models/Day.model';
 })
 export class AppComponent {
 
+    @ViewChild('template') template: TemplateRef<any>
+    modalRef: BsModalRef;
+
     selectedDate: number = moment().date();
-    currentDay: number = moment().day();
+    currentDay: any;
+    currentEvent: any;
     
     displayYear: number = moment().year();
     displayMonth: number = moment().month();
@@ -22,7 +28,9 @@ export class AppComponent {
     
     weekHead: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
-    constructor() {
+    constructor(
+        private modalService: BsModalService,
+    ) {
         this.createMonth(this.displayYear, this.displayMonth);
     }
 
@@ -87,7 +95,7 @@ export class AppComponent {
             weekDays = [];
         }
     }
-
+    //build basic days structure
     getBasicStructure(year, month, date, isThisMonth = false){
         return {
             year: year,
@@ -107,5 +115,48 @@ export class AppComponent {
         this.lastSelect = i * 7 + j;
         this.dateArray[i * 7 + j].isSelect = true;
     }
-}
 
+    deleteEv(eve){
+        //find event will be deleted
+        let item = this.currentDay.hasEvent.find(x => x.id = eve.id);
+        const indexEvent = this.currentDay.hasEvent.indexOf(item);
+        //delete item
+        this.currentDay.hasEvent.splice(indexEvent, 1);
+        //then close the modal
+        this.modalRef.hide();
+    }
+
+    setEvent(eventUpd){
+        //get current day position
+        const index = this.dateArray.indexOf(this.currentDay);
+
+        if(eventUpd.id){
+            //if we found some id, update the event
+            let item = this.currentDay.hasEvent.find(x => x.id = eventUpd.id);
+            const indexEvent = this.currentDay.hasEvent.indexOf(item);
+            item = Object.assign(item, eventUpd);
+            this.currentDay.hasEvent[indexEvent] = item;
+            this.currentDay.hasEvent = this.sortByDate(this.currentDay.hasEvent);
+        }else{
+            //if we don't found some id, we created an id and push tjhe event into the current day
+            eventUpd.id = new Date().getTime();
+            this.currentDay.hasEvent.push(eventUpd);
+            this.currentDay.hasEvent = this.sortByDate(this.currentDay.hasEvent);
+            this.dateArray[index] = { ...this.currentDay };
+        }
+        //then close the modal
+        this.modalRef.hide();
+    }
+    //save day reference
+    openModal(elements: any) {
+        this.currentDay = {...elements.day};
+        this.currentEvent = elements.event ? {...elements.event} : new EventModel();
+        this.modalRef = this.modalService.show(this.template);
+    }
+
+    sortByDate(arr){
+        return arr.sort((a,b) => {
+            return a.time.getTime() - b.time.getTime();
+        })
+    }
+}

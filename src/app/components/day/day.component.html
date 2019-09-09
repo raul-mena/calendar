@@ -5,7 +5,9 @@
         </div>
     </div>
     <div class="lower-div">
-        <div class="eventBlip" *ngIf="day.hasEvent"></div>
-        <div *ngFor="let event  of day.hasEvent" class="eventBlip"></div>
+        <a *ngIf="day.isSelect" (click)="openModalWithComponent({event: false, day: day})" class="badge badge-primary">Add reminder</a>
+        <ul class="list-group myList">
+            <li *ngFor="let event of day.hasEvent" [style.background-color]="event.color" class="listElement" (click)="openModalWithComponent({event: event, day: day})">{{event.reminder}}</li>
+        </ul>
     </div>
 </div>
